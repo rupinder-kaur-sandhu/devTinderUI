@@ -26,11 +26,14 @@ const Connections = () => {
   if (connections.length === 0) return <h1>No connections found</h1>;
   return (
     <div className=" text-center my-10">
-      <h1 className="text-bold text-white text-5xl">Connections</h1>
+      <h1 className="text-bold text-green text-5xl">Connections</h1>
       {connections.map((connection) => {
-        const { firstName, lastName, about } = connection;
+        const { firstName, lastName, about, _id } = connection;
         return (
-          <div className="flex m-4 p-4 bg-base-300 rounded-lg w-1/2 mx-auto">
+          <div
+            key={_id}
+            className="flex m-4 p-4 bg-base-300 rounded-lg w-1/2 mx-auto"
+          >
             <div className="text-left mx-4">
               <h2 className="font-bold text-xl">
                 {firstName + " " + lastName}
