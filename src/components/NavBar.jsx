@@ -6,18 +6,15 @@ import { removeUser } from "../utils/userSlice";
 
 const NavBar = () => {
   const user = useSelector((store) => store.user);
+  console.log("From Navbar ", user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      const res = await axios.post(
-        BASE_URL + "/logout",
-        {},
-        { withCredentials: true }
-      );
-      dispatch(removeUser);
-      navigate("/login");
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      dispatch(removeUser());
+      return navigate("/login");
     } catch (err) {}
   };
 
@@ -28,17 +25,11 @@ const NavBar = () => {
           DevTinder
         </Link>
       </div>
-      <div className="flex-none gap-2">
-        <div className="form-control">
-          <input
-            type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
-          />
-        </div>
-        {user && (
-          <div className="dropdown dropdown-end mx-5">
-            <p>Welcome, {user.firstName}</p>
+      {user && (
+        <div className="flex-none gap-2">
+          <div className="form-control">Welcome {user.firstName}</div>
+
+          <div className="dropdown dropdown-end mx-5 flex">
             <div
               tabIndex={0}
               role="button"
@@ -62,15 +53,15 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <a>Settings</a>
+                <Link to="/connections">Connections</Link>
               </li>
               <li>
                 <a onClick={handleLogout}>Logout</a>
               </li>
             </ul>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };
